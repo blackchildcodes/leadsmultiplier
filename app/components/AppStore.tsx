@@ -16,7 +16,7 @@ const AppStore = () => {
             data-aos-delay="300"
             className="text-center sm:px-20"
           >
-            Ready to revolutionize your client acquisition process? It's time to take the first step towards unlocking unparalleled success with LeadsMultiplier.
+            Ready to revolutionize your client acquisition process? It&apos;s time to take the first step towards unlocking unparalleled success with LeadsMultiplier.
           </p>
           <div className="flex flex-wrap justify-center gap-4 items-center">
             <a href="#" data-aos="fade-up" data-aos-delay="500">
