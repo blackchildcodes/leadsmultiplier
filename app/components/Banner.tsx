@@ -34,7 +34,7 @@ const Banner = ({ togglePlay } : { togglePlay : () => void }) => {
                 </span>
               </h1>
               <p data-aos="fade-up" data-aos-delay="500">
-                In today's competitive landscape, data is not just information; it&apos;s the key to unlocking opportunities, understanding customer behavior, and making informed decisions.
+                In today&apos;s competitive landscape, data is not just information; it&apos;s the key to unlocking opportunities, understanding customer behavior, and making informed decisions.
               </p>
               <div className="flex gap-6">
                 <RegisterLink>
