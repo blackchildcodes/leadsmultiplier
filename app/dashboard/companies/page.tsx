@@ -26,7 +26,7 @@ const CompaniesPage = () => {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': 'a8c31c6278msha5be81b01cf38edp17b795jsn9821bb2152db',
+                'X-RapidAPI-Key': 'a969585268msh55e2bf4093fc67fp1d64fajsn2f2d47b4caf0',
                 'X-RapidAPI-Host': 'apollo-io1.p.rapidapi.com'
             }
         };
