@@ -22,7 +22,7 @@ const PopupPlayer = ({ isPlay, togglePlay } : {isPlay: boolean, togglePlay: ()=>
                 <iframe
                   width="100%"
                   height="315"
-                  src="https://www.youtube.com/embed/skz6VDfm03I?si=ZE0mBi5atyVsp_0C"
+                  src="https://youtu.be/xIbs0SKmfrs?si=ESdNBowRl9jFLI--"
                   title="YouTube video player"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
