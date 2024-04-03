@@ -1,16 +1,21 @@
 "use client"
 
-import { GenerateButton } from "@/app/components/SubmitButtons"
-import { Button } from "@/components/ui/button"
+import { ExportButton, GenerateButton } from "@/app/components/SubmitButtons"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Download } from "lucide-react"
-import Link from "next/link"
 import { useState } from "react"
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+import { onGetExporItems } from "@/lib/utils"
 
 const LinkedInPage = () => {
     const [loading, setLoading] = useState(false)
@@ -94,38 +99,41 @@ const LinkedInPage = () => {
                     </div>
                 </CardContent>
                 <CardFooter>
-                <GenerateButton loading={loading} generateLeads={generateLeads} />
+                    <GenerateButton loading={loading} generateLeads={generateLeads} />
                 </CardFooter>
             </Card>
 
             <div className="flex flex-col gap-y-4">
-                {people && people?.map((item) => (
-                    <Card
-                    key={item.username}
-                    className="flex items-center justify-between p-4"
-                    >
-                    <div>
-                        <h2 className="font-semibold text-xl text-primary">
-                        {item?.username}
-                        </h2>
-                        <p>
-                            {item?.headline}
-                        </p>
-                        <p>
-                            {item?.location}
-                        </p>
-                        <a href={item?.profileURL} target="_blank">Go to LinkedIn Profile</a>
-                    </div>
+                {people?.length > 0 ? <ExportButton loading={loading} onGetExporItems={() => onGetExporItems("Searched People", "People", people, setLoading, "linkedin")} /> : <div></div>}
+            </div>
 
-                    <div className="flex gap-x-4">
-                        <Link href={`/dashboard/linkedin`}>
-                        <Button variant="outline" size="icon">
-                            <Download className="w-4 h-4" />
-                        </Button>
-                        </Link>
-                    </div>
-                    </Card>
-                ))}
+            <div className="flex flex-col gap-y-4">
+                {people?.length > 0 ? 
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="w-[100px]">Username</TableHead>
+                                <TableHead>Head Line</TableHead>
+                                <TableHead>Location</TableHead>
+                                <TableHead className="text-right">Profile Link</TableHead>
+                            </TableRow>
+                        </TableHeader>
+
+                        <TableBody>
+                            {people?.map((item, index) => (
+                                <TableRow key={index}>
+                                    <TableCell className="font-medium">{item?.username}</TableCell>
+                                    <TableCell>{item?.headline}</TableCell>
+                                    <TableCell>{item?.location}</TableCell>
+                                    <TableCell className="text-right">
+                                        <a href={item?.profileURL} target="_blank">Go to LinkedIn Profile</a>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table> : <div></div>
+                }
+                
             </div>
 
         </div>

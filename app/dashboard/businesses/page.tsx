@@ -1,6 +1,6 @@
 "use client"
 
-import { GenerateButton } from "@/app/components/SubmitButtons"
+import { ExportButton, GenerateButton } from "@/app/components/SubmitButtons"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -11,6 +11,15 @@ import Link from "next/link"
 import { useState } from "react"
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
+import { onGetExporItems } from "@/lib/utils"
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 
 const BusinessesPage = () => {
     const [loading, setLoading] = useState(false)
@@ -116,33 +125,35 @@ const BusinessesPage = () => {
             </Card>
 
             <div className="flex flex-col gap-y-4">
-                {businesses?.map((item) => (
-                    <Card
-                    key={item.business_id}
-                    className="flex items-center justify-between p-4"
-                    >
-                    <div>
-                        <h2 className="font-semibold text-xl text-primary">
-                        {item?.name}
-                        </h2>
-                        <p>
-                            {item?.phone_number}
-                        </p>
-                        <p>
-                            Business Status: {item?.business_status}
-                        </p>
-                        <a href={item.website} target="_blank">Website</a>
-                    </div>
+                {businesses?.length > 0 ? <ExportButton loading={loading} onGetExporItems={() => onGetExporItems("Searched People", "People", businesses, setLoading, "businesses")} /> : <div></div>}
+            </div>
 
-                    <div className="flex gap-x-4">
-                        <Link href={`/dashboard/companies`}>
-                        <Button variant="outline" size="icon">
-                            <Download className="w-4 h-4" />
-                        </Button>
-                        </Link>
-                    </div>
-                    </Card>
-                ))}
+            <div className="flex flex-col gap-y-4">
+                {businesses?.length > 0 ? 
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="w-[100px]">Name</TableHead>
+                                <TableHead>Phone Number</TableHead>
+                                <TableHead>Business Status</TableHead>
+                                <TableHead className="text-right">Website</TableHead>
+                            </TableRow>
+                        </TableHeader>
+
+                        <TableBody>
+                            {businesses?.map((item) => (
+                                <TableRow key={item.business_id}>
+                                    <TableCell className="font-medium">{item?.name}</TableCell>
+                                    <TableCell>{item?.phone_number}</TableCell>
+                                    <TableCell>{item?.business_status}</TableCell>
+                                    <TableCell className="text-right">
+                                        <a href={item?.website} target="_blank">Website</a>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table> : <div></div>
+                }
             </div>
 
         </div>

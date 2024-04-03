@@ -90,3 +90,19 @@ export function GenerateButton({loading, generateLeads} : {loading: boolean, gen
     </>
   );
 }
+
+export function ExportButton({loading, onGetExporItems} : {loading: boolean, onGetExporItems: () => void}) {
+  return (
+    <>
+      {loading ? (
+        <Button disabled className="w-fit">
+          <Loader2 className="mr-2 w-4 h-4 animate-spin" /> Please Wait
+        </Button>
+      ) : (
+        <Button className="w-fit" type="submit" onClick={onGetExporItems}>
+          Export to Excel
+        </Button>
+      )}
+    </>
+  );
+}

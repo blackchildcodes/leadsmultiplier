@@ -1,6 +1,6 @@
 "use client"
 
-import { GenerateButton } from "@/app/components/SubmitButtons"
+import { ExportButton, GenerateButton } from "@/app/components/SubmitButtons"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -11,6 +11,15 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
+import { onGetExporItems } from "@/lib/utils"
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 
 const CompaniesPage = () => {
     const [oLocation, setOLocation] = useState("")
@@ -187,33 +196,35 @@ const CompaniesPage = () => {
         </Card>
 
         <div className="flex flex-col gap-y-4">
-            {companies && companies?.map((item) => (
-                <Card
-                key={item.id}
-                className="flex items-center justify-between p-4"
-                >
-                    <div>
-                        <h2 className="font-semibold text-xl text-primary">
-                        {item?.name}
-                        </h2>
-                        <p>
-                            {item?.phone}
-                        </p>
-                        <p>
-                            {item?.primary_domain}
-                        </p>
-                        <a href={item.linkedin_url} target="_blank">LinkedIn Page</a>
-                    </div>
+            {companies?.length > 0 ? <ExportButton loading={loading} onGetExporItems={() => onGetExporItems("Searched Companies", "Companies", companies, setLoading, "companies")} /> : <div></div>}
+        </div>
 
-                    <div className="flex gap-x-4">
-                        <Link href={`/dashboard/companies`}>
-                        <Button variant="outline" size="icon">
-                            <Download className="w-4 h-4" />
-                        </Button>
-                        </Link>
-                    </div>
-                </Card>
-            ))}
+        <div className="flex flex-col gap-y-4">
+            {companies?.length > 0 ? 
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[100px]">Name</TableHead>
+                            <TableHead>Phone Number</TableHead>
+                            <TableHead>Primary Domain</TableHead>
+                            <TableHead className="text-right">LinkedIn Page</TableHead>
+                        </TableRow>
+                    </TableHeader>
+
+                    <TableBody>
+                        {companies?.map((item) => (
+                            <TableRow key={item?.id}>
+                                <TableCell className="font-medium">{item?.name}</TableCell>
+                                <TableCell>{item?.phone}</TableCell>
+                                <TableCell>{item?.primary_domain}</TableCell>
+                                <TableCell className="text-right">
+                                    <a href={item?.linkedin_url} target="_blank">LinkedIn Page</a>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table> : <div></div>
+            }
         </div>
     </div>
   )

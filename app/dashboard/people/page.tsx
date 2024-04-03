@@ -1,6 +1,6 @@
 "use client"
 
-import { GenerateButton } from "@/app/components/SubmitButtons"
+import { ExportButton, GenerateButton } from "@/app/components/SubmitButtons"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -11,6 +11,15 @@ import { ToastAction } from "@/components/ui/toast"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
+import { onGetExporItems } from "@/lib/utils"
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 
 const PeoplePage = () => {
     const [name, setName] = useState("")
@@ -173,34 +182,37 @@ const PeoplePage = () => {
         </Card>
 
         <div className="flex flex-col gap-y-4">
-            {people && people?.map((item) => (
-                <Card
-                key={item.id}
-                className="flex items-center justify-between p-4"
-                >
-                    <div>
-                        <h2 className="font-semibold text-xl text-primary">
-                        {item?.name}
-                        </h2>
-                        <p>
-                            {item?.email}
-                        </p>
-                        <p>
-                            {item?.phone_numbers[0]?.raw_number}
-                        </p>
-                        <a href={item.linkedin_url} target="_blank">LinkedIn Profile</a>
-                    </div>
-
-                    <div className="flex gap-x-4">
-                        <Link href={`/dashboard/people`}>
-                            <Button variant="outline" size="icon">
-                                <Download className="w-4 h-4" />
-                            </Button>
-                        </Link>
-                    </div>
-                </Card>
-            ))}
+            {people?.length > 0 ? <ExportButton loading={loading} onGetExporItems={() => onGetExporItems("Searched People", "People", people, setLoading, "people")} /> : <div></div>}
         </div>
+
+        <div className="flex flex-col gap-y-4">
+            {people?.length > 0 ? 
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[100px]">Name</TableHead>
+                            <TableHead>Email</TableHead>
+                            <TableHead>Phone Number</TableHead>
+                            <TableHead className="text-right">LinkedIn Page</TableHead>
+                        </TableRow>
+                    </TableHeader>
+
+                    <TableBody>
+                        {people?.map((item) => (
+                            <TableRow key={item?.id}>
+                                <TableCell className="font-medium">{item?.name}</TableCell>
+                                <TableCell>{item?.email}</TableCell>
+                                <TableCell>{item?.phone_numbers[0]?.raw_number}</TableCell>
+                                <TableCell className="text-right">
+                                    <a href={item.linkedin_url} target="_blank">LinkedIn Page</a>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table> : <div></div>
+            }
+        </div>
+
     </div>
   )
 }

@@ -16,7 +16,7 @@ import Link from "next/link";
 
 export const navItems = [
   { name: "Home", href: "/dashboard", icon: Home },
-  { name: "Search Companies", href: "/dashboard/companies", icon: Building2Icon },
+  //{ name: "Search Companies", href: "/dashboard/companies", icon: Building2Icon },
   { name: "Local Businesses (Google)", href: "/dashboard/businesses", icon: BuildingIcon },
   { name: "LinkedIn Leads", href: "/dashboard/linkedin", icon: LinkedinIcon },
   { name: "Search People", href: "/dashboard/people", icon: UsersRound },
